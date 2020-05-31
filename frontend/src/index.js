@@ -25,7 +25,7 @@ firebase.initializeApp(firebaseConfig);
 const theme = createMuiTheme({
   palette: {
     primary: purple,
-    secondary: teal,
+    secondary: purple,
     // secondary: {
     //   main: "#f44336",
     // },

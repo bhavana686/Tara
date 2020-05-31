@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import axios from "axios";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 // import Modal from 'react-bootstrap/Modal';
-import {  Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -15,7 +15,7 @@ import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import Env from "../helpers/Env";
-import { TextField,Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Form, Col } from "react-bootstrap";
@@ -36,7 +36,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
 
 const classes = makeStyles((theme) => ({
   root: {
@@ -236,10 +235,22 @@ class CompanyLocation extends Component {
       return (
         <TableBody>
           <TableRow>
-            <StyledTableCell> {userdetails.name}</StyledTableCell>
-            <StyledTableCell> {userdetails.address}</StyledTableCell>
-            <StyledTableCell> {userdetails.latitude}</StyledTableCell>
-            <StyledTableCell> {userdetails.longitude}</StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.name}
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.address}
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.latitude}
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.longitude}
+            </StyledTableCell>
 
             <StyledTableCell>
               <Link
@@ -268,40 +279,61 @@ class CompanyLocation extends Component {
     displaydetails = (
       <div>
         <div class="paddingleft15">
-        <div className="form-group">
-        <div className="">
-        <div className="form-group d-flex justify-content-between">
-        <h2>Locations</h2>
+          <div className="form-group">
+            <div className="">
+              <div className="form-group d-flex justify-content-between">
+                <h2>Locations</h2>
 
-         <Button type="button" variant="outlined" color="primary"
-                
+                <Button
+                  type="button"
+                  variant="outlined"
+                  color="primary"
                   onClick={this.showCostumeModal}
                 >
-                 Add New Location
+                  Add New Location
                 </Button>
               </div>
-              </div>
-              <br></br>
-     
-              <TableContainer component={Paper}>
-                <Table aria-label="customized table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell> Name</StyledTableCell>
-                      <StyledTableCell>Address</StyledTableCell>
-                      <StyledTableCell>Latitude</StyledTableCell>
-                      <StyledTableCell>Longitude</StyledTableCell>
-
-                      <StyledTableCell>X</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  {formdetails}
-                </Table>
-              </TableContainer>
             </div>
+            <br></br>
+
+            <TableContainer component={Paper}>
+              <Table aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell
+                      style={{ "font-weight": "bold" }}
+                      align="center"
+                    >
+                      {" "}
+                      Name
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{ "font-weight": "bold" }}
+                      align="center"
+                    >
+                      Address
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{ "font-weight": "bold" }}
+                      align="center"
+                    >
+                      Latitude
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{ "font-weight": "bold" }}
+                      align="center"
+                    >
+                      Longitude
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+
+                {formdetails}
+              </Table>
+            </TableContainer>
           </div>
         </div>
+      </div>
     );
     return (
       <div>

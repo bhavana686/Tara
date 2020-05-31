@@ -485,12 +485,37 @@ class CompanyDB extends Component {
                       <TableRow>
                         <StyledTableCell></StyledTableCell>
 
-                        <StyledTableCell>User Name</StyledTableCell>
-                        <StyledTableCell>Roles</StyledTableCell>
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          User Name
+                        </StyledTableCell>
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          Roles
+                        </StyledTableCell>
 
-                        <StyledTableCell>User address</StyledTableCell>
-                        <StyledTableCell>Phone Number</StyledTableCell>
-                        <StyledTableCell>Mail Id</StyledTableCell>
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          User address
+                        </StyledTableCell>
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          Phone Number
+                        </StyledTableCell>
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          Mail Id
+                        </StyledTableCell>
                       </TableRow>
                     </TableHead>
 

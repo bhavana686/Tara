@@ -24,7 +24,6 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import purple from "@material-ui/core/colors/purple";
 
-
 const StyledTableCell = withStyles((theme) => ({}))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -34,7 +33,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
 
 const classes = makeStyles((theme) => ({
   root: {
@@ -67,11 +65,11 @@ class CrewListing extends Component {
       curentuserid: 0,
       showviewuserrole: false,
       viewdata: "",
-      persona: sessionStorage.getItem('persona'),
-      projectid: sessionStorage.getItem('projectid'),
-      userid: sessionStorage.getItem('userid'),
-      companyid : sessionStorage.getItem('companyId'),
-      access :false
+      persona: sessionStorage.getItem("persona"),
+      projectid: sessionStorage.getItem("projectid"),
+      userid: sessionStorage.getItem("userid"),
+      companyid: sessionStorage.getItem("companyId"),
+      access: false,
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleShow = this.handleShow.bind(this);
@@ -81,13 +79,12 @@ class CrewListing extends Component {
     this.handleroleclose = this.handleroleclose.bind(this);
     this.handlerolechanges = this.handlerolechanges.bind(this);
     this.checkaccessrights = this.checkaccessrights.bind(this);
-
   }
 
   componentWillMount() {
     this.setState({
-      viewdata: "role"
-    })
+      viewdata: "role",
+    });
   }
 
   handleOnChange() {
@@ -107,22 +104,22 @@ class CrewListing extends Component {
     console.log(value, "in show view fun");
     await axios
       .get(
-        Env.host+"/project-overview/get_project_userroles?projectid=" +
-        this.state.projectid +
-        "&userid=" +
-        value.userid
+        Env.host +
+          "/project-overview/get_project_userroles?projectid=" +
+          this.state.projectid +
+          "&userid=" +
+          value.userid
       )
       .then((response) => {
         console.log("in subresponse", response.data);
 
         this.setState({
-          viewdata: response.data[0].role
+          viewdata: response.data[0].role,
         });
-        console.log(this.state.viewdata)
+        console.log(this.state.viewdata);
       });
 
     await this.setState({
-
       showviewuserrole: true,
     });
   };
@@ -153,9 +150,9 @@ class CrewListing extends Component {
 
   closeshowuser = () => {
     this.setState({
-      showviewuserrole: false
-    })
-  }
+      showviewuserrole: false,
+    });
+  };
 
   handleroleshow(val, val1, val2, val3, val4) {
     console.log("in handle role show");
@@ -192,42 +189,33 @@ class CrewListing extends Component {
     });
   }
 
-
-  checkaccessrights = async(value) =>
-  {
-  if(this.state.persona == "admin")
-  {
-    this.setState({
-      access:true
-    })
-  }
-  else{
-    const data = {
-      projectid :this.state.projectid,
-      accessright : value,
-      userid : this.state.userid
+  checkaccessrights = async (value) => {
+    if (this.state.persona == "admin") {
+      this.setState({
+        access: true,
+      });
+    } else {
+      const data = {
+        projectid: this.state.projectid,
+        accessright: value,
+        userid: this.state.userid,
+      };
+      await axios
+        .post(Env.host + "/accessright/user/", data)
+        .then((response) => {
+          console.log("is it true", response.data);
+          if (response.data) {
+            this.setState({
+              access: true,
+            });
+          } else {
+            this.setState({
+              access: false,
+            });
+          }
+        });
     }
-    await axios
-  .post(
-    Env.host+"/accessright/user/",data
-  )
-  .then((response) => {
-    console.log("is it true",response.data);
-  if(response.data)
-  {
-  this.setState({
-    access:true
-  })
-  }
-  else{
-    this.setState({
-      access:false
-    })
-  }
-    
-  });
-  }
-  }
+  };
 
   handleusers = (event, values, props) => {
     console.log("in handle on users");
@@ -266,8 +254,6 @@ class CrewListing extends Component {
     });
   };
 
-
-
   handleClose = (e) => {
     var users = [];
     console.log("size is", this.state.usersval.length);
@@ -300,24 +286,23 @@ class CrewListing extends Component {
     });
   };
 
-  submitForm() { }
+  submitForm() {}
 
   getcrewlist = () => {
-
     axios
       .get(
         Env.host +
-        "/project-overview/getcrewlist?projectid=" +
-        this.state.projectid
+          "/project-overview/getcrewlist?projectid=" +
+          this.state.projectid
       )
       .then((response) => {
         console.log(response);
 
         this.setState({
-          crewlist: response.data
+          crewlist: response.data,
         });
       });
-  }
+  };
 
   componentDidMount() {
     this.checkaccessrights("Crew");
@@ -331,11 +316,13 @@ class CrewListing extends Component {
       });
     });
 
-    axios.get(Env.host + "/companydb/allusersfromcompany/"+this.state.companyid).then((response) => {
-      console.log(response);
+    axios
+      .get(Env.host + "/companydb/allusersfromcompany/" + this.state.companyid)
+      .then((response) => {
+        console.log(response);
 
-      usersdata = response.data;
-    });
+        usersdata = response.data;
+      });
   }
 
   render() {
@@ -347,7 +334,8 @@ class CrewListing extends Component {
       <Dialog
         onClose={this.closeshowuser}
         aria-labelledby="customized-dialog-title"
-        open={this.state.showviewuserrole}>
+        open={this.state.showviewuserrole}
+      >
         <DialogContent>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Role :</Form.Label>
@@ -356,17 +344,15 @@ class CrewListing extends Component {
         </DialogContent>
         <Button variant="secondary" onClick={this.closeshowuser}>
           Close
-  </Button>
-
+        </Button>
       </Dialog>
-
-    )
+    );
     modelui = (
       <Dialog
         onClose={this.handleClose}
         aria-labelledby="customized-dialog-title"
-        open={this.state.show}>
-
+        open={this.state.show}
+      >
         <DialogTitle>Add Crew</DialogTitle>
         <DialogContent>
           <FormControl>
@@ -375,7 +361,6 @@ class CrewListing extends Component {
               id="tags-standard"
               options={usersdata}
               style={{ width: 300 }}
-
               getOptionLabel={(each) => each.name}
               onChange={this.handleusers}
               // defaultValue={this.props?.studentSkills}
@@ -401,16 +386,19 @@ class CrewListing extends Component {
 
         <Button variant="secondary" onClick={this.handleclosemodal}>
           Close
-          </Button>
+        </Button>
         <Button variant="primary" onClick={this.handleClose}>
           Save Changes
-          </Button>
+        </Button>
       </Dialog>
     );
 
     rolemodel = (
-      <Dialog open={this.state.showroles} aria-labelledby="customized-dialog-title"
-        onClose={this.handleroleclose}>
+      <Dialog
+        open={this.state.showroles}
+        aria-labelledby="customized-dialog-title"
+        onClose={this.handleroleclose}
+      >
         <DialogTitle>Add Roles</DialogTitle>
         <DialogContent>
           <FormControl className={classes.formControl}>
@@ -418,7 +406,6 @@ class CrewListing extends Component {
               multiple
               id="tags-standard"
               style={{ width: 300 }}
-
               options={dummydata}
               getOptionLabel={(each) => each.role}
               onChange={this.handleroles}
@@ -443,10 +430,10 @@ class CrewListing extends Component {
         {/* Enter Role: <TextField>Enter Role</TextField> */}
         <Button variant="secondary" onClick={this.handleroleclose}>
           Close
-          </Button>
+        </Button>
         <Button variant="primary" onClick={this.handlerolechanges}>
           Save Changes
-          </Button>
+        </Button>
       </Dialog>
     );
 
@@ -457,24 +444,47 @@ class CrewListing extends Component {
           <StyledTableCell align="center">{crew.name}</StyledTableCell>
           <StyledTableCell align="center">{crew.phonenumber}</StyledTableCell>
           <StyledTableCell align="center">
-            <Link onClick={(e) => this.showviewfun(crew)}>View</Link>
-          </StyledTableCell>
-          {this.state.access == true ?<StyledTableCell align="center">
-            {crew.role}
+            {/* <Link onClick={(e) => this.showviewfun(crew)}>View</Link> */}
             <Link
-              onClick={(e) =>
-                this.handleroleshow(
-                  crew.userid,
-                  crew.role1,
-                  crew.role2,
-                  crew.role3,
-                  crew.role4
-                )
-              }
+              // to={"/Projectmainpage/" + props.projectId}
+              className="remove-link-style"
             >
-              Add/Edit role
+              <Button
+                size="small"
+                color="primary"
+                onClick={(e) => this.showviewfun(crew)}
+              >
+                View
+              </Button>
             </Link>
-          </StyledTableCell> : "" }
+          </StyledTableCell>
+          {this.state.access == true ? (
+            <StyledTableCell align="center">
+              {crew.role}
+              <Link
+                // to={"/Projectmainpage/" + props.projectId}
+                className="remove-link-style"
+              >
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={(e) =>
+                    this.handleroleshow(
+                      crew.userid,
+                      crew.role1,
+                      crew.role2,
+                      crew.role3,
+                      crew.role4
+                    )
+                  }
+                >
+                  Add/Edit role
+                </Button>
+              </Link>
+            </StyledTableCell>
+          ) : (
+            ""
+          )}
         </TableRow>
       );
     });
@@ -523,39 +533,69 @@ class CrewListing extends Component {
 
     return (
       <div>
-
         <div className="paddingleft15">
           <div>{this.state.sucessmsg}</div>
           <div className="form-group">
             <div className="">
               <div className="form-group d-flex justify-content-between">
                 <h2>Contacts</h2>
-               {this.state.access == true ?
-                 <Button type="button" variant="outlined" color="primary"
-               
-                  onClick={(e) => this.handleShow(e)}
-                >
-                  Add Crew
-                </Button> : ""}
+                {this.state.access == true ? (
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    color="primary"
+                    onClick={(e) => this.handleShow(e)}
+                  >
+                    Add Crew
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
-
-
 
               <TableContainer component={Paper}>
                 <Table aria-label="customized table">
-                  <TableHead >
+                  <TableHead>
                     <TableRow>
-                      <StyledTableCell align="center">Crew Id</StyledTableCell>
-                      <StyledTableCell align="center"> Name</StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        Crew Id
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        {" "}
+                        Name
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
                         Phone Number
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
                         View Roles
                       </StyledTableCell>
-                      {this.state.access == "true" ? <StyledTableCell align="center">
-                        Add Roles
-                      </StyledTableCell> : ""}
+                      {this.state.access == "true" ? (
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          Add Roles
+                        </StyledTableCell>
+                      ) : (
+                        ""
+                      )}
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      ></StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>{displayform}</TableBody>

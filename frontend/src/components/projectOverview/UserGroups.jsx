@@ -17,9 +17,10 @@ import FormControl from "@material-ui/core/FormControl";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Link } from "react-router-dom";
 import Env from "../../helpers/Env";
+import "../css/userGroups.css";
 
 import Button from "@material-ui/core/Button";
-import { DialogContent,DialogTitle,Dialog } from "@material-ui/core";
+import { DialogContent, DialogTitle, Dialog } from "@material-ui/core";
 
 const StyledTableCell = withStyles((theme) => ({}))(TableCell);
 
@@ -33,27 +34,14 @@ const StyledTableRow = withStyles((theme) => ({
 
 var userdata = [];
 var accessrightsdata = [];
-// var edit_userdata = [];
-// var edit_accessrightsdata = [];
-// const deptFunctions = [
-//   { value: "Locations and sets" },
-//   { value: "Cast " },
-//   { value: "Costumes" },
-//   { value: "Hair and makeup" },
-//   { value: "Production design (cars, props etc)" },
-//   { value: "Stunts" },
-//   { value: "Choreography" },
-//   { value: "Visual Effects" },
-//   { value: "Marketing" }
-// ];
 
 class UserGroups extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      persona: sessionStorage.getItem('persona'),
-      projectid: sessionStorage.getItem('projectid'),
-      userid: sessionStorage.getItem('userid'),
+      persona: sessionStorage.getItem("persona"),
+      projectid: sessionStorage.getItem("projectid"),
+      userid: sessionStorage.getItem("userid"),
       usergroups: [],
       ugname: "",
       displaycrewform: false,
@@ -73,7 +61,7 @@ class UserGroups extends Component {
       viewusers: [],
       ugid: 0,
       showview: false,
-      access:false
+      access: false,
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handlenamechange = this.handlenamechange.bind(this);
@@ -131,7 +119,8 @@ class UserGroups extends Component {
 
     await axios
       .get(
-        Env.host+"/project-overview/get_project_usergroup_details?projectid=" +
+        Env.host +
+          "/project-overview/get_project_usergroup_details?projectid=" +
           this.state.projectid +
           "&ugid=" +
           value.UserGroupId
@@ -165,7 +154,8 @@ class UserGroups extends Component {
 
     await axios
       .post(
-        Env.host+"/project-overview/update_project_usergroup_details?projectid=" +
+        Env.host +
+          "/project-overview/update_project_usergroup_details?projectid=" +
           this.state.projectid,
         data
       )
@@ -203,7 +193,8 @@ class UserGroups extends Component {
     console.log(value, "in show view fun");
     await axios
       .get(
-        Env.host+"/project-overview/get_project_usergroup_details?projectid=" +
+        Env.host +
+          "/project-overview/get_project_usergroup_details?projectid=" +
           this.state.projectid +
           "&ugid=" +
           value.UserGroupId
@@ -295,42 +286,33 @@ class UserGroups extends Component {
     });
   }
 
-checkaccessrights = async(value) =>
-{
-if(this.state.persona == "admin")
-{
-  this.setState({
-    access:true
-  })
-}
-else{
-  const data = {
-    projectid :this.state.projectid,
-    accessright : value,
-    userid : this.state.userid
-  }
-  await axios
-.post(
-  Env.host+"/accessright/user/",data
-)
-.then((response) => {
-  console.log("is it true",response.data);
-if(response.data)
-{
-this.setState({
-  access:true
-})
-}
-else{
-  this.setState({
-    access:false
-  })
-}
-  
-});
-}
-}
-
+  checkaccessrights = async (value) => {
+    if (this.state.persona == "admin") {
+      this.setState({
+        access: true,
+      });
+    } else {
+      const data = {
+        projectid: this.state.projectid,
+        accessright: value,
+        userid: this.state.userid,
+      };
+      await axios
+        .post(Env.host + "/accessright/user/", data)
+        .then((response) => {
+          console.log("is it true", response.data);
+          if (response.data) {
+            this.setState({
+              access: true,
+            });
+          } else {
+            this.setState({
+              access: false,
+            });
+          }
+        });
+    }
+  };
 
   async submitugform() {
     const data = {
@@ -341,7 +323,8 @@ else{
     };
     await axios
       .post(
-        Env.host+"/project-overview/create_new_usergroup?projectid=" +
+        Env.host +
+          "/project-overview/create_new_usergroup?projectid=" +
           this.state.projectid,
         data
       )
@@ -355,16 +338,16 @@ else{
   }
 
   async componentDidMount() {
-console.log(this.state.persona)
-console.log(this.state.projectid)
-console.log(this.state.userid)
+    console.log(this.state.persona);
+    console.log(this.state.projectid);
+    console.log(this.state.userid);
 
-
-this.checkaccessrights("Editor");
+    this.checkaccessrights("Editor");
 
     await axios
       .get(
-        Env.host+"/project-overview/getusergroups_project?projectid=" +
+        Env.host +
+          "/project-overview/getusergroups_project?projectid=" +
           this.state.projectid
       )
       .then((response) => {
@@ -377,7 +360,8 @@ this.checkaccessrights("Editor");
 
     await axios
       .get(
-        Env.host+"/project-overview/getusers_fromproject/" +
+        Env.host +
+          "/project-overview/getusers_fromproject/" +
           this.state.projectid
       )
       .then((response) => {
@@ -392,10 +376,7 @@ this.checkaccessrights("Editor");
     userdata = this.state.users;
 
     await axios
-      .get(
-        Env.host+"/project-overview/getaccessrights_forproject"
-     
-      )
+      .get(Env.host + "/project-overview/getaccessrights_forproject")
       .then((response) => {
         console.log(response);
 
@@ -488,12 +469,13 @@ this.checkaccessrights("Editor");
     );
 
     ugform = (
-       <Dialog
-   onClose={this.handleugformClose}
-   aria-labelledby="customized-dialog-title"
-   open={this.state.displaycrewform}>
-          <DialogTitle>Create New UserGroup</DialogTitle>
-        
+      <Dialog
+        onClose={this.handleugformClose}
+        aria-labelledby="customized-dialog-title"
+        open={this.state.displaycrewform}
+      >
+        <DialogTitle>Create New UserGroup</DialogTitle>
+
         <DialogContent>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>UserGroup Name</Form.Label>
@@ -566,27 +548,25 @@ this.checkaccessrights("Editor");
               </section> */}
           </FormControl>
           {/* Enter Role: <TextField>Enter Role</TextField> */}
-       
-       
+
           <Button variant="secondary" onClick={this.handleugformClose}>
             Close
           </Button>
           <Button variant="primary" onClick={this.submitugform}>
             Save Changes
           </Button>
-          </DialogContent>
+        </DialogContent>
       </Dialog>
     );
 
     editugform = (
       <Dialog
-      onClose={this.closeeditugs}
-      aria-labelledby="customized-dialog-title"
-      open={this.state.showeditug}>
-     
-       
-          <DialogTitle>UserGroup Form</DialogTitle>
-       
+        onClose={this.closeeditugs}
+        aria-labelledby="customized-dialog-title"
+        open={this.state.showeditug}
+      >
+        <DialogTitle>UserGroup Form</DialogTitle>
+
         <DialogContent>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>UserGroup Name</Form.Label>
@@ -670,12 +650,12 @@ this.checkaccessrights("Editor");
           </Form.Group>
           {/* Enter Role: <TextField>Enter Role</TextField> */}
         </DialogContent>
-          <Button variant="secondary" onClick={this.closeeditugs}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={this.submiteditugform}>
-            Save Changes
-          </Button>
+        <Button variant="secondary" onClick={this.closeeditugs}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={this.submiteditugform}>
+          Save Changes
+        </Button>
       </Dialog>
     );
 
@@ -688,19 +668,33 @@ this.checkaccessrights("Editor");
               onChange={(e) => this.showeditugs(crew)}
             />
           </StyledTableCell>
-          <StyledTableCell align="center">
-            <Link onClick={(e) => this.showviewfun(crew)}>View</Link>
-          </StyledTableCell>
 
           <StyledTableCell align="center">{crew.UserGroupId}</StyledTableCell>
 
           <StyledTableCell align="center">{crew.UserGroup}</StyledTableCell>
           <StyledTableCell align="center">{crew.description}</StyledTableCell>
-          {this.state.access == true ?
+          {this.state.access == true ? (
+            <StyledTableCell align="center">
+              <Link onClick={this.showeditugform}>Edit Usergroup</Link>
+            </StyledTableCell>
+          ) : (
+            ""
+          )}
           <StyledTableCell align="center">
-            <Link onClick={this.showeditugform}>Edit Usergroup</Link>
+            {/* <Link onClick={(e) => this.showviewfun(crew)}>View</Link> */}
+            <Link
+              // to={"/Projectmainpage/" + props.projectId}
+              className="remove-link-style"
+            >
+              <Button
+                size="small"
+                color="primary"
+                onClick={(e) => this.showviewfun(crew)}
+              >
+                View
+              </Button>
+            </Link>
           </StyledTableCell>
-          : ""}
         </TableRow>
       );
     });
@@ -712,13 +706,18 @@ this.checkaccessrights("Editor");
             <div className="">
               <div className="form-group d-flex justify-content-between">
                 <h2>User Groups</h2>
-                {this.state.access == true ?
-                 <Button type="button" variant="outlined" color="primary"
-               
-                  onClick={this.handleOnChange}
-                >
-                  Add User Group
-                </Button> : ""}
+                {this.state.access == true ? (
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.handleOnChange}
+                  >
+                    Add User Group
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
 
               <TableContainer component={Paper}>
@@ -726,22 +725,36 @@ this.checkaccessrights("Editor");
                   <TableHead>
                     <TableRow>
                       <StyledTableCell align="center"></StyledTableCell>
-                      <StyledTableCell align="center"></StyledTableCell>
 
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
                         UserGroupId
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
                         UserGroup
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
                         Description
                       </StyledTableCell>
-                      {this.state.access == true ?
-                      <StyledTableCell align="center">
-                        Edit Usergroup
-                      </StyledTableCell>
-                      : ""}
+                      {this.state.access == true ? (
+                        <StyledTableCell
+                          style={{ "font-weight": "bold" }}
+                          align="center"
+                        >
+                          Edit Usergroup
+                        </StyledTableCell>
+                      ) : (
+                        ""
+                      )}
+                      <StyledTableCell align="center"></StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>{displayform}</TableBody>

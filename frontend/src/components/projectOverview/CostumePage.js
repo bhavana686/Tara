@@ -32,7 +32,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-
 const classes = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -57,50 +56,41 @@ class Costume extends Component {
       name: "",
       source: "",
       description: "",
-      persona: sessionStorage.getItem('persona'),
-      projectid: sessionStorage.getItem('projectid'),
-      userid: sessionStorage.getItem('userid'),
-      access :false
+      persona: sessionStorage.getItem("persona"),
+      projectid: sessionStorage.getItem("projectid"),
+      userid: sessionStorage.getItem("userid"),
+      access: false,
     };
     this.checkaccessrights = this.checkaccessrights.bind(this);
-
   }
 
-  checkaccessrights = async(value) =>
-  {
-  if(this.state.persona == "admin")
-  {
-    this.setState({
-      access:true
-    })
-  }
-  else{
-    const data = {
-      projectid :this.state.projectid,
-      accessright : value,
-      userid : this.state.userid
+  checkaccessrights = async (value) => {
+    if (this.state.persona == "admin") {
+      this.setState({
+        access: true,
+      });
+    } else {
+      const data = {
+        projectid: this.state.projectid,
+        accessright: value,
+        userid: this.state.userid,
+      };
+      await axios
+        .post(Env.host + "/accessright/user/", data)
+        .then((response) => {
+          console.log("is it true", response.data);
+          if (response.data) {
+            this.setState({
+              access: true,
+            });
+          } else {
+            this.setState({
+              access: false,
+            });
+          }
+        });
     }
-    await axios
-  .post(
-    Env.host+"/accessright/user/",data
-  )
-  .then((response) => {
-    console.log("is it true",response.data);
-  if(response.data)
-  {
-  this.setState({
-    access:true
-  })
-  }
-  else{
-    this.setState({
-      access:false
-    })
-  }
-    
-  });
-  }
-  }
+  };
 
   componentDidMount() {
     this.checkaccessrights("Costumes");
@@ -117,8 +107,8 @@ class Costume extends Component {
     axios
       .get(
         Env.host +
-        "/project-overview/getprojectcostumes/" +
-        this.state.projectid
+          "/project-overview/getprojectcostumes/" +
+          this.state.projectid
       )
       .then((response) => {
         console.log(response);
@@ -147,7 +137,6 @@ class Costume extends Component {
       .then((response) => {
         console.log(response);
         this.getcostumes();
-
       });
 
     this.setState({
@@ -209,7 +198,6 @@ class Costume extends Component {
       .then((response) => {
         console.log(response);
         this.getcostumes();
-
       });
 
     this.setState({
@@ -270,8 +258,11 @@ class Costume extends Component {
     let costumecreate = null;
 
     costumecreate = (
-      <Dialog open={this.state.showmodal} aria-labelledby="customized-dialog-title"
-        onClose={this.handleprojectclose}>
+      <Dialog
+        open={this.state.showmodal}
+        aria-labelledby="customized-dialog-title"
+        onClose={this.handleprojectclose}
+      >
         <DialogTitle>Add New Costume</DialogTitle>
         <DialogContent>
           <Form.Group controlId="exampleForm.ControlInput1">
@@ -308,17 +299,21 @@ class Costume extends Component {
         </DialogContent>
         <Button variant="secondary" onClick={this.handleCreateModelClose}>
           Close
-          </Button>
+        </Button>
         <Button variant="primary" onClick={this.SubmitCreateCostumes}>
           Save Changes
-          </Button>
+        </Button>
       </Dialog>
     );
 
     let costumemodal = null;
 
     costumemodal = (
-      <Dialog open={this.state.costumeshow} aria-labelledby="customized-dialog-title" onClose={this.handleprojectclose}>
+      <Dialog
+        open={this.state.costumeshow}
+        aria-labelledby="customized-dialog-title"
+        onClose={this.handleprojectclose}
+      >
         <DialogTitle>Add Costumes</DialogTitle>
         <DialogContent>
           <FormControl className={classes.formControl}>
@@ -349,10 +344,10 @@ class Costume extends Component {
         </DialogContent>
         <Button variant="secondary" onClick={this.handleModelClose}>
           Close
-          </Button>
+        </Button>
         <Button variant="primary" onClick={this.SubmitCostumes}>
           Save Changes
-          </Button>
+        </Button>
       </Dialog>
     );
 
@@ -361,15 +356,23 @@ class Costume extends Component {
       return (
         <TableBody>
           <TableRow>
-            <StyledTableCell> {userdetails.costumename}</StyledTableCell>
-            <StyledTableCell> {userdetails.source}</StyledTableCell>
-            <StyledTableCell> {userdetails.description}</StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.costumename}
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.source}
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              {userdetails.description}
+            </StyledTableCell>
           </TableRow>
         </TableBody>
       );
     });
     displaydetails = (
-
       <div>
         <div className="paddingleft15">
           <div>{this.state.sucessmsg}</div>
@@ -377,23 +380,26 @@ class Costume extends Component {
             <div className="">
               <div className="form-group d-flex justify-content-between">
                 <h1>Costumes</h1>
-               {this.state.access ? 
-                 <Button type="button" variant="outlined" color="primary"
-                
-                  onClick={this.showCostumeModal}
-                > 
-                  Add Costume
-                </Button>: ""}
+                {this.state.access ? (
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.showCostumeModal}
+                  >
+                    Add Costume
+                  </Button>
+                ) : (
+                  ""
+                )}
 
-                {this.state.access ?
-                <Button
-                 
-                  onClick={this.showcreateCostumeModal}
-                >
-                  Add New Costume
-                </Button> : ""}
-
-
+                {this.state.access ? (
+                  <Button onClick={this.showcreateCostumeModal}>
+                    Add New Costume
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
               <br></br>
 
@@ -401,10 +407,31 @@ class Costume extends Component {
                 <Table aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell> Name</StyledTableCell>
-                      <StyledTableCell>Source</StyledTableCell>
-                      <StyledTableCell>Description</StyledTableCell>
-                      <StyledTableCell>image</StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        {" "}
+                        Name
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        Source
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        Description
+                      </StyledTableCell>
+                      {/* <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        image
+                      </StyledTableCell> */}
                     </TableRow>
                   </TableHead>
 
