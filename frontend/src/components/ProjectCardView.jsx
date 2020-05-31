@@ -40,10 +40,11 @@ export default function MediaCard(props) {
               {props.projectName}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Lorem ipsum, or lipsum as it is sometimes known, is dummy text
+              {/* Lorem ipsum, or lipsum as it is sometimes known, is dummy text
               used in laying out print, graphic or web designs. The passage is
               attributed to an unknown typesetter in the 15th century who is
-              book.
+              book. */}
+              {props.projectDesc}
             </Typography>
           </CardContent>
         </Link>

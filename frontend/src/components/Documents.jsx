@@ -14,7 +14,7 @@ class Documents extends React.Component {
       folders: ["Costumes", "Contracts", "Financing"],
       persona: sessionStorage.getItem("persona"),
       projectid: window.sessionStorage.getItem("projectid"),
-      userid: sessionStorage.getItem("userid"),
+      userid: sessionStorage.getItem("uid"),
       foldersWithAccessRight: [],
     };
   }
@@ -27,7 +27,7 @@ class Documents extends React.Component {
     console.log("URL:::::", url);
     axios.get(url).then(async (response) => {
       console.log(response);
-      response.data.Contents.shift();
+      // response.data.Contents.shift();
       await this.setState({
         files: response.data.Contents,
       });
@@ -42,6 +42,7 @@ class Documents extends React.Component {
 
   checkAccessRights = async (value) => {
     if (this.state.persona == "admin") {
+      console.log("entered if of checkAccessRights");
       this.setState({
         access: true,
       });
@@ -54,39 +55,35 @@ class Documents extends React.Component {
       };
       await axios
         .post(Env.host + "/accessright/user/", data)
-        .then((response) => {
+        .then(async (response) => {
           console.log("is it true", response.data);
-          if (response.data) {
-            this.setState({
-              access: true,
-            });
-            return true;
-          } else {
-            this.setState({
-              access: false,
-            });
-            return false;
-          }
+          // if (response.data) {
+          console.log("response.data", response.data);
+          await this.setState({
+            access: response.data,
+          });
+          console.log("access set as:", data.accessright, this.state.access);
+          // }
         });
     }
   };
 
   setFolderByAccessRights = async () => {
+    console.log("Entered setFolderByAccessRights ");
     let foldersWithAccessRight = [];
-    let x = this.state.folders.map((folder) => {
-      if (this.checkAccessRights(folder)) {
-        console.log(
-          "this.checkAccessRights(folder) for folder",
-          folder,
-          this.checkAccessRights(folder)
-        );
+    let x = this.state.folders.map(async (folder) => {
+      await this.checkAccessRights(folder);
+      console.log("folder and accessright: ", folder, this.state.access);
+      if (this.state.access) {
+        console.log("pushing folderr::::", folder);
         foldersWithAccessRight.push(folder);
       }
+      // console.log("foldersWithAccessRight", foldersWithAccessRight);
     });
     await this.setState({
       foldersWithAccessRight: foldersWithAccessRight,
     });
-    console.log("foldersWithAccessRight:::", foldersWithAccessRight);
+    console.log("foldersWithAccessRight:::", this.state.foldersWithAccessRight);
   };
 
   render() {

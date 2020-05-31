@@ -12,12 +12,16 @@ class Projectpage extends Component {
     super(props);
     this.state = {
       allprojects: [],
-      companyid :window.sessionStorage.getItem("companyId")
+      companyid: window.sessionStorage.getItem("companyId"),
     };
   }
   componentDidMount() {
     axios
-      .get(Env.host + "/project-create/getproject_bycompanyid/"+this.state.companyid)
+      .get(
+        Env.host +
+          "/project-create/getproject_bycompanyid/" +
+          this.state.companyid
+      )
       .then(async (response) => {
         console.log("response from all projects", response);
         await this.setState({
@@ -52,7 +56,11 @@ class Projectpage extends Component {
           <MediaCard projectName={project.name}></MediaCard>;
         })} */}
             {this.state?.allprojects?.map((project) => (
-              <MediaCard projectName={project.name} projectId={project.id} />
+              <MediaCard
+                projectName={project.name}
+                projectDesc={project.description}
+                projectId={project.id}
+              />
             ))}
           </div>
         </div>
