@@ -117,7 +117,7 @@ class Login extends React.Component {
 
       <div style={{ marginTop: "20px",paddingLeft:"70px"}}>
         {redirectVar}
-            <div className="card login-card" style={{height:"350px",width:"300px",marginTop: "120px"}}>
+            <div className="card login-card" style={{height:"350px",width:"350px",marginTop: "120px"}}>
               <div className="card-body">
                 {!this.state.loginFlag ? (
                   <p>{this.state.invalidCredentialsMessage}</p>
