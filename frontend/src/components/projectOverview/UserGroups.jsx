@@ -674,7 +674,19 @@ class UserGroups extends Component {
           <StyledTableCell align="center">{crew.description}</StyledTableCell>
           {this.state.access == true ? (
             <StyledTableCell align="center">
-              <Link onClick={this.showeditugform}>Edit Usergroup</Link>
+              {/* <Link onClick={this.showeditugform}>Edit Usergroup</Link> */}
+              <Link
+                // to={"/Projectmainpage/" + props.projectId}
+                className="remove-link-style"
+              >
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={this.showeditugform}
+                >
+                  Edit
+                </Button>
+              </Link>
             </StyledTableCell>
           ) : (
             ""
@@ -723,19 +735,24 @@ class UserGroups extends Component {
                 <Table aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell align="center"></StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        Select
+                      </StyledTableCell>
 
                       <StyledTableCell
                         style={{ "font-weight": "bold" }}
                         align="center"
                       >
-                        UserGroupId
+                        User Group Id
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ "font-weight": "bold" }}
                         align="center"
                       >
-                        UserGroup
+                        User Group
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ "font-weight": "bold" }}
@@ -748,12 +765,17 @@ class UserGroups extends Component {
                           style={{ "font-weight": "bold" }}
                           align="center"
                         >
-                          Edit Usergroup
+                          Edit User Group
                         </StyledTableCell>
                       ) : (
                         ""
                       )}
-                      <StyledTableCell align="center"></StyledTableCell>
+                      <StyledTableCell
+                        style={{ "font-weight": "bold" }}
+                        align="center"
+                      >
+                        View User Group
+                      </StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>{displayform}</TableBody>

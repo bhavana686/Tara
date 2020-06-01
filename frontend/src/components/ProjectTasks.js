@@ -58,7 +58,7 @@ class ProjectTasks extends Component {
     this.state = {
       persona: sessionStorage.getItem("persona"),
       projectid: sessionStorage.getItem("projectid"),
-      userid: sessionStorage.getItem("userid"),
+      userid: sessionStorage.getItem("uid"),
       eventcheck: true,
       usercheck: false,
       name: "",
@@ -103,14 +103,14 @@ class ProjectTasks extends Component {
         this.setState({
           access: response.data,
         });
-        this.getevents();
+        this.getTasksByUser();
       });
     } else {
       this.setState({
         access: true,
       });
+      this.getevents();
     }
-    this.getevents();
   }
 
   handleprojectclosemodal = () => {
@@ -229,6 +229,21 @@ class ProjectTasks extends Component {
       .get(
         Env.host + "/project-overview/gettasks_fromproject/" + data1.projectid
       )
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          eventlist: response.data,
+        });
+      });
+  };
+
+  getTasksByUser = () => {
+    const data1 = {
+      projectid: this.state.projectid,
+    };
+
+    axios
+      .get(Env.host + "/project-overview/get-tasks/" + this.state.userid)
       .then((response) => {
         console.log(response);
         this.setState({

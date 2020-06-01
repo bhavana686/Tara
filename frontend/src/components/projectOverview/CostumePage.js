@@ -394,7 +394,12 @@ class Costume extends Component {
                 )}
 
                 {this.state.access ? (
-                  <Button onClick={this.showcreateCostumeModal}>
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    color="primary"
+                    onClick={this.showcreateCostumeModal}
+                  >
                     Add New Costume
                   </Button>
                 ) : (

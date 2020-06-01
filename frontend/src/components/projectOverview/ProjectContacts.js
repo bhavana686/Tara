@@ -317,7 +317,9 @@ class CrewListing extends Component {
     });
 
     axios
-      .get(Env.host + "/companydb/allusersfromcompany/" + this.state.companyid)
+      .get(
+        Env.host + "/companydb/all-users-from-company/" + this.state.companyid
+      )
       .then((response) => {
         console.log(response);
 
@@ -442,7 +444,7 @@ class CrewListing extends Component {
         <TableRow>
           <StyledTableCell align="center">{crew.userid}</StyledTableCell>
           <StyledTableCell align="center">{crew.name}</StyledTableCell>
-          <StyledTableCell align="center">{crew.phonenumber}</StyledTableCell>
+          <StyledTableCell align="center">{crew.phone_number}</StyledTableCell>
           <StyledTableCell align="center">
             {/* <Link onClick={(e) => this.showviewfun(crew)}>View</Link> */}
             <Link
@@ -478,7 +480,7 @@ class CrewListing extends Component {
                     )
                   }
                 >
-                  Add/Edit role
+                  Edit role
                 </Button>
               </Link>
             </StyledTableCell>
