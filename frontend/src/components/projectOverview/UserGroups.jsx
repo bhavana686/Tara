@@ -17,7 +17,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Link } from "react-router-dom";
 import Env from "../../helpers/Env";
-import "../css/userGroups.css";
 
 import Button from "@material-ui/core/Button";
 import { DialogContent, DialogTitle, Dialog } from "@material-ui/core";
