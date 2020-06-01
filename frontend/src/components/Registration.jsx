@@ -2,12 +2,14 @@ import React from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
+import Button from "@material-ui/core/Button";
 
 import * as firebase from "firebase/app";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import Constants from "../helpers/Constants";
 import AuthService from "../auth.service";
+import bgpic from "./images/bgpic.jpeg";
 
 class Registration extends React.Component {
   constructor(props) {
@@ -140,66 +142,243 @@ class Registration extends React.Component {
       redirectVar = <Redirect to="/login" />;
     }
     return (
-      <article className="app-registration container">
-        <div className="row mt-5">
-          <div className="col-8">
-            <section className="jumbotron">
-              <h1>TARA</h1>
-              <p>
-               WHERE TALENT MEETS OPPORTUNITY
-              </p>
-            </section>
-          </div>
-          <div className="col">
-            <section className="card login-card">
-              <div className="card-body">
-                {!this.state.loginFlag ? (
-                  <p>{this.state.invalidCredentialsMessage}</p>
-                ) : (
-                  ""
-                )}
-                {/* <div className="student-profile-form"> */}
-                <Form>
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Name"
-                      name="name"
-                      onChange={this.handleOnChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Email"
-                      name="email"
-                      onChange={this.handleOnChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="password"
-                      name="password"
-                      // onKeyDown={this.onKeyUp}
-                      onChange={this.handleOnChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="exampleForm.ControlInput1">
-                    <Form.Label>Company Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="company name"
-                      name="companyName"
-                      // onKeyDown={this.onKeyUp}
-                      onChange={this.handleOnChange}
-                    />
-                  </Form.Group>
+      // <article className="app-registration container">
+      //   <div className="row mt-5">
+      //     <div className="col-8">
+      //       <section className="jumbotron">
+      //         <h1>TARA</h1>
+      //         <p>WHERE TALENT MEETS OPPORTUNITY</p>
+      //       </section>
+      //     </div>
+      //     <div className="col">
+      //       <section className="card login-card">
+      //         <div className="card-body">
+      //           {!this.state.loginFlag ? (
+      //             <p>{this.state.invalidCredentialsMessage}</p>
+      //           ) : (
+      //             ""
+      //           )}
+      //           {/* <div className="student-profile-form"> */}
+      //           <Form>
+      //             <Form.Group controlId="exampleForm.ControlInput1">
+      //               <Form.Label>Name</Form.Label>
+      //               <Form.Control
+      //                 type="text"
+      //                 placeholder="Name"
+      //                 name="name"
+      //                 onChange={this.handleOnChange}
+      //               />
+      //             </Form.Group>
+      //             <Form.Group controlId="exampleForm.ControlInput1">
+      //               <Form.Label>Email</Form.Label>
+      //               <Form.Control
+      //                 type="email"
+      //                 placeholder="Email"
+      //                 name="email"
+      //                 onChange={this.handleOnChange}
+      //               />
+      //             </Form.Group>
+      //             <Form.Group controlId="exampleForm.ControlInput1">
+      //               <Form.Label>Password</Form.Label>
+      //               <Form.Control
+      //                 type="password"
+      //                 placeholder="password"
+      //                 name="password"
+      //                 // onKeyDown={this.onKeyUp}
+      //                 onChange={this.handleOnChange}
+      //               />
+      //             </Form.Group>
+      //             <Form.Group controlId="exampleForm.ControlInput1">
+      //               <Form.Label>Company Name</Form.Label>
+      //               <Form.Control
+      //                 type="text"
+      //                 placeholder="company name"
+      //                 name="companyName"
+      //                 // onKeyDown={this.onKeyUp}
+      //                 onChange={this.handleOnChange}
+      //               />
+      //             </Form.Group>
 
-                  {/* <div key={`default-radio`} className="mb-3">
+      //             {/* <div key={`default-radio`} className="mb-3">
+      //               <Form.Check
+      //                 type="radio"
+      //                 id={`default-"radio`}
+      //                 label="Signup as User"
+      //               />
+
+      //               <Form.Check
+      //                 // disabled
+      //                 type="radio"
+      //                 label="Signup as User"
+      //                 id={`disabled-default-radio}`}
+      //                 onChange={this.handleOnChange}
+      //               />
+      //             </div> */}
+
+      //             <Form.Group controlId="exampleForm.ControlSelect1">
+      //               <Form.Label>Sign up as</Form.Label>
+      //               <Form.Control
+      //                 as="select"
+      //                 name="persona"
+      //                 onChange={this.iAmHandleOnChange}
+      //               >
+      //                 <option value={Constants.Role.Admin}>Admin</option>
+      //                 <option value={Constants.Role.User}>User</option>
+      //               </Form.Control>
+      //             </Form.Group>
+
+      //             {!!this.state.showAddRolesForm ? (
+      //               <div>
+      //                 <Form.Group controlId="exampleForm.ControlInput1">
+      //                   <Form.Label>Role</Form.Label>
+      //                   <Form.Control
+      //                     type="text"
+      //                     placeholder="password"
+      //                     name="password"
+      //                     // onKeyDown={this.onKeyUp}
+      //                     onChange={this.handleOnChange}
+      //                   />
+      //                 </Form.Group>
+      //                 <button
+      //                   type="button"
+      //                   onClick={this.addAnotherRoleField}
+      //                   className="btn btn-outline-primary btn-login"
+      //                 >
+      //                   Add another role
+      //                 </button>
+      //                 {/* <Autocomplete
+      //                     multiple
+      //                     id="core-functions"
+      //                     name="coreFunctions"
+      //                     options={[]
+      //                     }
+      //                     getOptionLabel={(each) => each.name}
+      //                     onChange={this.handleOnCoreFunctionsChange}
+      //                     renderInput={(params) => (
+      //                       <TextField
+      //                         {...params}
+      //                         variant="standard"
+      //                         label="Core Functions"
+      //                         placeholder="Enter functions"
+      //                       />
+      //                     )}
+      //                   /> */}
+      //               </div>
+      //             ) : (
+      //               ""
+      //             )}
+      //           </Form>
+      //           <button
+      //             onClick={this.submitForm}
+      //             className="btn btn-primary btn-login"
+      //           >
+      //             Sign up
+      //           </button>
+      //           <div className="mt-3">
+      //             Already have an account?
+      //             <Link to="/login" className="btn btn-outline-primary ml-3">
+      //               Sign in
+      //             </Link>
+      //           </div>
+      //           {/* <Link className="btn btn-primary btn-login" to="/">
+      //             Login
+      //           </Link> */}
+      //           {/* </div> */}
+      //         </div>
+      //       </section>
+      //     </div>
+      //   </div>
+      // </article>
+
+      <div class="login">
+        {redirectVar}
+        <div class="row">
+          <div class="col-md-8">
+            <img
+              src={bgpic}
+              alt="Flowers in Chania"
+              width="1000"
+              height="800px"
+            ></img>
+            <div
+              class="top-left"
+              style={{
+                position: "absolute",
+                top: "50px",
+                fontSize: "80px",
+                color: "white",
+                left: "660px",
+              }}
+            >
+              <h1>
+                <b></b>
+              </h1>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div style={{ marginTop: "20px", paddingLeft: "70px" }}>
+              {redirectVar}
+              <div>
+                <div className="card-body">
+                  {!this.state.loginFlag ? (
+                    <p>{this.state.invalidCredentialsMessage}</p>
+                  ) : (
+                    ""
+                  )}
+                  <div
+                    className="student-profile-form"
+                    style={{ width: "380px", paddingRight: "100px" }}
+                  >
+                    <section className="card login-card">
+                      <div className="card-body">
+                        {!this.state.loginFlag ? (
+                          <p>{this.state.invalidCredentialsMessage}</p>
+                        ) : (
+                          ""
+                        )}
+                        {/* <div className="student-profile-form"> */}
+                        <Form>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Name"
+                              name="name"
+                              onChange={this.handleOnChange}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                              type="email"
+                              placeholder="Email"
+                              name="email"
+                              onChange={this.handleOnChange}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                              type="password"
+                              placeholder="password"
+                              name="password"
+                              // onKeyDown={this.onKeyUp}
+                              onChange={this.handleOnChange}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Company Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="company name"
+                              name="companyName"
+                              // onKeyDown={this.onKeyUp}
+                              onChange={this.handleOnChange}
+                            />
+                          </Form.Group>
+
+                          {/* <div key={`default-radio`} className="mb-3">
                     <Form.Check
                       type="radio"
                       id={`default-"radio`}
@@ -215,80 +394,89 @@ class Registration extends React.Component {
                     />
                   </div> */}
 
-                  <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Sign up as</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="persona"
-                      onChange={this.iAmHandleOnChange}
-                    >
-                      <option value={Constants.Role.Admin}>Admin</option>
-                      <option value={Constants.Role.User}>User</option>
-                    </Form.Control>
-                  </Form.Group>
+                          <Form.Group controlId="exampleForm.ControlSelect1">
+                            <Form.Label>Sign up as</Form.Label>
+                            <Form.Control
+                              as="select"
+                              name="persona"
+                              onChange={this.iAmHandleOnChange}
+                            >
+                              <option value={Constants.Role.Admin}>
+                                Admin
+                              </option>
+                              <option value={Constants.Role.User}>User</option>
+                            </Form.Control>
+                          </Form.Group>
 
-                  {!!this.state.showAddRolesForm ? (
-                    <div>
-                      <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label>Role</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="password"
-                          name="password"
-                          // onKeyDown={this.onKeyUp}
-                          onChange={this.handleOnChange}
-                        />
-                      </Form.Group>
-                      <button
-                        type="button"
-                        onClick={this.addAnotherRoleField}
-                        className="btn btn-outline-primary btn-login"
-                      >
-                        Add another role
-                      </button>
-                      {/* <Autocomplete
-                          multiple
-                          id="core-functions"
-                          name="coreFunctions"
-                          options={[]
-                          }
-                          getOptionLabel={(each) => each.name}
-                          onChange={this.handleOnCoreFunctionsChange}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              variant="standard"
-                              label="Core Functions"
-                              placeholder="Enter functions"
-                            />
-                          )}
-                        /> */}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </Form>
-                <button
-                  onClick={this.submitForm}
-                  className="btn btn-primary btn-login"
-                >
-                  Sign up
-                </button>
-                <div className="mt-3">
-                  Already have an account?
-                  <Link to="/login" className="btn btn-outline-primary ml-3">
-                    Sign in
-                  </Link>
-                </div>
-                {/* <Link className="btn btn-primary btn-login" to="/">
+                          {/* {!!this.state.showAddRolesForm ? (
+                            <div>
+                              <Form.Group controlId="exampleForm.ControlInput1">
+                                <Form.Label>Role</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  placeholder="password"
+                                  name="password"
+                                  // onKeyDown={this.onKeyUp}
+                                  onChange={this.handleOnChange}
+                                />
+                              </Form.Group>
+                              <button
+                                type="button"
+                                onClick={this.addAnotherRoleField}
+                                className="btn btn-outline-primary btn-login"
+                              >
+                                Add another role
+                              </button>
+                            </div>
+                          ) : (
+                            ""
+                          )} */}
+                        </Form>
+                        <Button
+                          type="button"
+                          variant="contained"
+                          color="primary"
+                          onClick={this.submitForm}
+                        >
+                          Sign up
+                        </Button>{" "}
+                        &nbsp; &nbsp;
+                        <div className="mt-3">
+                          Already have an account?
+                          <Link to="/login" className="remove-link-style">
+                            <Button variant="outlined" color="primary">
+                              Login
+                            </Button>
+                          </Link>
+                        </div>
+                        {/* <button
+                          onClick={this.submitForm}
+                          className="btn btn-primary btn-login"
+                        >
+                          Sign up
+                        </button>
+                        <div className="mt-3">
+                          Already have an account?
+                          <Link
+                            to="/login"
+                            className="btn btn-outline-primary ml-3"
+                          >
+                            Sign in
+                          </Link>
+                        </div> */}
+                        {/* <Link className="btn btn-primary btn-login" to="/">
                   Login
                 </Link> */}
-                {/* </div> */}
+                        {/* </div> */}
+                      </div>
+                    </section>
+                  </div>
+                </div>
               </div>
-            </section>
+            </div>
           </div>
         </div>
-      </article>
+      </div>
     );
   }
 }
