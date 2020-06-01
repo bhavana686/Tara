@@ -40,7 +40,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-
 const classes = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -86,10 +85,10 @@ class CompanyDB extends Component {
       checkedItems: new Map(),
       projects: [],
       pageOfItems: [],
-      access : false,
-      persona: sessionStorage.getItem('persona'),
-      projectid: sessionStorage.getItem('projectid'),
-      userid: sessionStorage.getItem('userid'),
+      access: false,
+      persona: sessionStorage.getItem("persona"),
+      projectid: sessionStorage.getItem("projectid"),
+      userid: sessionStorage.getItem("userid"),
     };
     this.handleUsers = this.handleUsers.bind(this);
     this.getactors = this.getactors.bind(this);
@@ -107,48 +106,38 @@ class CompanyDB extends Component {
     this.handleprojectclosemodal = this.handleprojectclosemodal.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
     this.checkaccessrights = this.checkaccessrights.bind(this);
-
   }
 
-
-  checkaccessrights = async(value) =>
-{
-if(this.state.persona == "admin")
-{
-  this.setState({
-    access:true
-  })
-}
-else{
-  const data = {
-    projectid :this.state.projectid,
-    accessright : value,
-    userid : this.state.userid
-  }
-  await axios
-.post(
-  Env.host+"/accessright/user/",data
-)
-.then((response) => {
-  console.log("is it true",response.data);
-if(response.data)
-{
-this.setState({
-  access:true
-})
-}
-else{
-  this.setState({
-    access:false
-  })
-}
-  
-});
-}
-}
+  checkaccessrights = async (value) => {
+    if (this.state.persona == "admin") {
+      this.setState({
+        access: true,
+      });
+    } else {
+      const data = {
+        projectid: this.state.projectid,
+        accessright: value,
+        userid: this.state.userid,
+      };
+      await axios
+        .post(Env.host + "/accessright/user/", data)
+        .then((response) => {
+          console.log("is it true", response.data);
+          if (response.data) {
+            this.setState({
+              access: true,
+            });
+          } else {
+            this.setState({
+              access: false,
+            });
+          }
+        });
+    }
+  };
 
   componentDidMount() {
-    this.checkaccessrights("Crew")
+    this.checkaccessrights("Crew");
     console.log("inside componentDidMount");
     axios.get(Env.host + "/companydb/allroles").then((response) => {
       console.log(response);
@@ -238,7 +227,6 @@ else{
       .post(Env.host + "/companydb/assigntoproject", data)
       .then((response) => {
         console.log("dta in asign project", data);
-
       });
   };
 
@@ -254,13 +242,19 @@ else{
   };
 
   getusers = () => {
-    axios.get(Env.host + "/companydb/allusers").then((response) => {
-      console.log(response);
+    axios
+      .get(
+        Env.host +
+          "/companydb/all-users-from-company/" +
+          sessionStorage.getItem("companyId")
+      )
+      .then((response) => {
+        console.log(response);
 
-      this.setState({
-        userdetails: response.data,
+        this.setState({
+          userdetails: response.data,
+        });
       });
-    });
   };
   getactors = () => {
     axios.get(Env.host + "/companydb/allactors").then((response) => {
@@ -402,17 +396,19 @@ else{
     const formdetails = this.state.pageOfItems.map((userdetails) => {
       if (userdetails.roles < 4 && this.state.access) {
         console.log("no role defined");
-      userdetails.roles = (
-         <Link onClick={(e) => this.handleShow(e, userdetails)}>Add role</Link>
+        userdetails.roles = (
+          <Link onClick={(e) => this.handleShow(e, userdetails)}>Add role</Link>
         );
       }
 
       modelui = (
-
-        <Dialog open={this.state.show} aria-labelledby="customized-dialog-title" onClose={this.handleClose}>
+        <Dialog
+          open={this.state.show}
+          aria-labelledby="customized-dialog-title"
+          onClose={this.handleClose}
+        >
           <DialogTitle>Add Roles</DialogTitle>
           <DialogContent>
-
             <FormControl>
               <Autocomplete
                 multiple
@@ -441,14 +437,12 @@ else{
             <DialogContent>
               <Button variant="secondary" onClick={this.handleclosemodal}>
                 Close
-            </Button>
+              </Button>
               <Button variant="primary" onClick={this.handleClose}>
                 Save Changes
-            </Button>
+              </Button>
             </DialogContent>
-
           </DialogContent>
-
         </Dialog>
       );
 
@@ -482,15 +476,13 @@ else{
          </section> */}
             </FormControl>
             {/* Enter Role: <TextField>Enter Role</TextField> */}
-
           </DialogContent>
           <Button variant="secondary" onClick={this.handleprojectclosemodal}>
             Close
-            </Button>
+          </Button>
           <Button variant="primary" onClick={this.handleprojectclose}>
             Save Changes
-            </Button>
-
+          </Button>
         </Dialog>
       );
 
@@ -529,21 +521,23 @@ else{
             <div className="">
               <div className="form-group d-flex justify-content-between">
                 <h2>Users</h2>
-{this.state.access?
-                 <Button type="button" variant="outlined" color="primary"
-                  disabled={!this.state.enableaddproject}
-               
-                  onClick={this.AssignProject}
-                >
-                  Assign Project
-                </Button> : ""}
+                {this.state.access ? (
+                  <Button
+                    type="button"
+                    variant="outlined"
+                    color="primary"
+                    disabled={!this.state.enableaddproject}
+                    onClick={this.AssignProject}
+                  >
+                    Assign Project
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
-
           </div>
         </div>
-
-
 
         <TableContainer component={Paper}>
           <Table aria-label="customized table">

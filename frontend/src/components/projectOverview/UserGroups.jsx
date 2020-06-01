@@ -442,7 +442,7 @@ class UserGroups extends Component {
     );
 
     showug = (
-      <Modal show={this.state.showview} onHide={this.handleugformClose}>
+      <Modal show={this.state.showview} onHide={this.closeviewform}>
         <Modal.Header closeButton>
           <Modal.Title> UserGroup Details</Modal.Title>
         </Modal.Header>

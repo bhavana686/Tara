@@ -29,15 +29,8 @@ const upload = multer({
 const AWS = require("aws-sdk");
 
 const s3 = new AWS.S3({
-
- 
-
- 
-
   accessKeyId: process.env.PROFILE_TARA_AWS_ACCESS_KEY,
   secretAccessKey: process.env.PROFILE_TARA_SECRET_ACCESS_KEY,
-
-
 });
 
 router.post("/admin/:id", async (req, res) => {
@@ -95,34 +88,45 @@ router.get("/user/:id", async (req, res) => {
   } catch (ex) {
     return response.status(500).send(err);
   }
-})
+});
 
-router.post('/uploadpic/admin/:id', upload.single('profilepic'), async (request, response) => {
-  try {
-    console.log(request.body)
-    console.log("admin pic")
-    console.log(process.env)
-    if (request.file) {
-      const fileContent = fs.readFileSync(`./public/profilepic/${request.file.originalname}${path.extname(request.file.originalname)}`);
-      // console.log(fileContent)
-      const params = {
-       
-       Bucket: process.env.PROFILE_TARA_BUCKET_NAME,
-    
-        Key: `${request.file.originalname}${path.extname(request.file.originalname)}`,
-        Body: fileContent,
-        ContentType: request.file.mimetype,
-      };
-      console.log('--------');
-      console.log(params);
-      s3.upload(params, async (err, data) => {
-        if (err) {
-          console.log(err)
-          return response.status(500).json({ error: err.message });
-        }
-  
-          const dbquery = 'update admin set profile_pic=? where  uid=?';
-          result = await query(pool, dbquery, [data.Location, request.params.id]).catch(console.log);
+router.post(
+  "/uploadpic/admin/:id",
+  upload.single("profilepic"),
+  async (request, response) => {
+    try {
+      console.log(request.body);
+      console.log("admin pic");
+      console.log(process.env);
+      if (request.file) {
+        const fileContent = fs.readFileSync(
+          `./public/profilepic/${request.file.originalname}${path.extname(
+            request.file.originalname
+          )}`
+        );
+        // console.log(fileContent)
+        const params = {
+          Bucket: process.env.PROFILE_TARA_BUCKET_NAME,
+
+          Key: `${request.file.originalname}${path.extname(
+            request.file.originalname
+          )}`,
+          Body: fileContent,
+          ContentType: request.file.mimetype,
+        };
+        console.log("--------");
+        console.log(params);
+        s3.upload(params, async (err, data) => {
+          if (err) {
+            console.log(err);
+            return response.status(500).json({ error: err.message });
+          }
+
+          const dbquery = "update admin set profile_pic=? where  uid=?";
+          result = await query(pool, dbquery, [
+            data.Location,
+            request.params.id,
+          ]).catch(console.log);
           response.status(200).send(result);
         });
       }
@@ -132,32 +136,43 @@ router.post('/uploadpic/admin/:id', upload.single('profilepic'), async (request,
       return response.status(code).json({ message });
     }
   }
-});
+);
 
+router.post(
+  "/uploadpic/user/:id",
+  upload.single("profilepic"),
+  async (request, response) => {
+    try {
+      console.log(request.body);
+      if (request.file) {
+        const fileContent = fs.readFileSync(
+          `./public/profilepic/${request.file.originalname}${path.extname(
+            request.file.originalname
+          )}`
+        );
+        // console.log(fileContent)
+        const params = {
+          Bucket: process.env.PROFILE_TARA_BUCKET_NAME,
 
-router.post('/uploadpic/user/:id', upload.single('profilepic'), async (request, response) => {
-  try {
-    console.log(request.body)
-    if (request.file) {
-      const fileContent = fs.readFileSync(`./public/profilepic/${request.file.originalname}${path.extname(request.file.originalname)}`);
-      // console.log(fileContent)
-      const params = {
-        Bucket: process.env.PROFILE_TARA_BUCKET_NAME,
-      
-        Key: `${request.file.originalname}${path.extname(request.file.originalname)}`,
-        Body: fileContent,
-        ContentType: request.file.mimetype,
-      };
-      console.log('--------');
-      console.log(params);
-      s3.upload(params, async (err, data) => {
-        if (err) {
-          console.log(err)
-          return response.status(500).json({ error: err.message });
-        }
-  
-          const dbquery = 'update users set profile_pic=? where  uid=?';
-          result = await query(pool, dbquery, [data.Location, request.params.id]).catch(console.log);
+          Key: `${request.file.originalname}${path.extname(
+            request.file.originalname
+          )}`,
+          Body: fileContent,
+          ContentType: request.file.mimetype,
+        };
+        console.log("--------");
+        console.log(params);
+        s3.upload(params, async (err, data) => {
+          if (err) {
+            console.log(err);
+            return response.status(500).json({ error: err.message });
+          }
+
+          const dbquery = "update users set profile_pic=? where  uid=?";
+          result = await query(pool, dbquery, [
+            data.Location,
+            request.params.id,
+          ]).catch(console.log);
           console.log(result);
 
           response.status(200).send(result);

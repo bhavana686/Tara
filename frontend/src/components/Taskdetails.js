@@ -23,7 +23,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-
 class Taskdetails extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +39,7 @@ class Taskdetails extends Component {
     };
 
     axios
-      .get(Env.host+"/project-overview/gettaskusers/"+ data.id)
+      .get(Env.host + "/project-overview/gettaskusers/" + data.id)
       .then((response) => {
         console.log(response.data);
 
@@ -59,7 +58,7 @@ class Taskdetails extends Component {
           <TableRow>
             <StyledTableCell>{ud.name}</StyledTableCell>
             <StyledTableCell>{ud.address}</StyledTableCell>
-            <StyledTableCell>{ud.phonenumber}</StyledTableCell>
+            <StyledTableCell>{ud.phone_number}</StyledTableCell>
             <StyledTableCell>{ud.email}</StyledTableCell>
           </TableRow>
         );
@@ -80,9 +79,9 @@ class Taskdetails extends Component {
                     <TableHead>
                       <TableRow>
                         <StyledTableCell> Name</StyledTableCell>
-                        <StyledTableCell> address</StyledTableCell>
-                        <StyledTableCell>phonenumber</StyledTableCell>
-                        <StyledTableCell>mail id</StyledTableCell>
+                        <StyledTableCell> Address</StyledTableCell>
+                        <StyledTableCell>Phone Number</StyledTableCell>
+                        <StyledTableCell>Email Address</StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>{details}</TableBody>
@@ -92,7 +91,6 @@ class Taskdetails extends Component {
             </div>
           </div>
         </div>
-
       );
     } else {
       displayform = (
@@ -102,11 +100,7 @@ class Taskdetails extends Component {
       );
     }
 
-    return (
-      <div style={{ marginTop: "20px" }}>
-        {displayform}
-      </div>
-    );
+    return <div style={{ marginTop: "20px" }}>{displayform}</div>;
   }
 }
 
